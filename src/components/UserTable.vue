@@ -1,34 +1,36 @@
 <template>
-  <div class="table-container">
-    <h2>Liste des Utilisateurs</h2>
+  <section class="table-section">
+    <h2 class="table-title">Liste des Utilisateurs</h2>
 
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nom</th>
-          <th>Email</th>
-          <th>Rôle</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in users" :key="user.id">
-          <td>{{ user.id }}</td>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role }}</td>
-          <td>
-            <button @click="editUser(user.id)">Modifier</button>
-            <button @click="deleteUser(user.id)">Supprimer</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div class="table-wrapper">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Rôle</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in users" :key="user.id">
+            <td>{{ user.id }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td class="actions-cell">
+              <button class="btn btn-edit" @click="editUser(user.id)">Modifier</button>
+              <button class="btn btn-delete" @click="deleteUser(user.id)">Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 
 const users = ref([
@@ -39,34 +41,37 @@ const users = ref([
   { id: 5, name: 'Eric Petit', email: 'eric@example.com', role: 'User' },
 ])
 
-const editUser = (id) => {
+const editUser = (id: number) => {
   console.log('Modifier utilisateur:', id)
 }
 
-const deleteUser = (id) => {
+const deleteUser = (id: number) => {
   console.log('Supprimer utilisateur:', id)
 }
 </script>
 
 <style scoped>
-.table-container {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+.table-section {
+  margin-top: 2rem;
 }
 
-h2 {
+.table-title {
   color: #42b883;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
-table {
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.user-table {
   width: 100%;
   border-collapse: collapse;
   background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 thead {
@@ -74,50 +79,51 @@ thead {
   color: white;
 }
 
-th {
-  padding: 1rem;
-  text-align: left;
-  font-weight: 600;
-}
-
+th,
 td {
   padding: 1rem;
-  border-bottom: 1px solid #e0e0e0;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+tbody tr:nth-child(even) {
+  background: #f8f9fa;
 }
 
 tbody tr:hover {
-  background: #f5f5f5;
+  background: #eefaf4;
 }
 
-tbody tr:last-child td {
-  border-bottom: none;
+.actions-cell {
+  white-space: nowrap;
 }
 
-button {
-  padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
+.btn {
+  padding: 0.45rem 0.9rem;
+  margin-right: 0.4rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 0.875rem;
-  transition: all 0.3s;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-button:first-child {
+.btn-edit {
   background: #42b883;
   color: white;
 }
 
-button:first-child:hover {
-  background: #35a372;
+.btn-edit:hover {
+  background: #37966d;
 }
 
-button:last-child {
+.btn-delete {
   background: #e74c3c;
   color: white;
 }
 
-button:last-child:hover {
+.btn-delete:hover {
   background: #c0392b;
 }
 </style>
